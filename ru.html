@@ -11,9 +11,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
-<!-- Trustpilot TrustBox loader. Якщо додасте банер згоди на cookie —
-     підключайте цей скрипт лише після згоди на маркетингові cookie. -->
-<script type="text/javascript" src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js" async></script>
+<!-- Testimonial.to: resizer for the reviews carousel (load after cookie consent if you add a banner) -->
+<script type="text/javascript" src="https://testimonial.to/js/iframeResizer.min.js" defer></script>
 <style>
 /* ============================================================
    TOKENS
@@ -598,7 +597,9 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
   margin-top:var(--gap); background:var(--primary-soft); border:1px solid var(--on-dark-line);
   border-radius:var(--r-md); padding:24px; min-height:120px;
 }
-.tp-block .trustpilot-widget{ min-height:0; }
+.tp-block iframe{ display:block; width:100%; border:0; min-height:220px; }
+/* the carousel renders on a light card, so keep the block white on the dark band */
+.tp-block--light{ background:#fff; border-color:transparent; padding:8px; }
 .tp-fallback{ display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
 .tp-fallback__ic{
   width:52px; height:52px; flex:none; border-radius:999px; display:grid; place-items:center;
@@ -1419,42 +1420,34 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
     </div>
 
     <!-- ============================================================
-         TRUSTPILOT — живая лента отзывов
-         Вставьте data-template-id и data-businessunit-id из кабинета
-         Trustpilot Business → Integrations → TrustBox.
-         Пока ID не вставлены, показывается запасной блок ниже.
+         TESTIMONIAL.TO — живая лента отзывов
+         Виджет-карусель из спейса «doverka». Высоту подгоняет
+         iframeResizer, подключённый ниже. Если добавите баннер
+         согласия на cookie — грузите оба скрипта только после согласия.
          ============================================================ -->
-    <div class="tp-block reveal">
-      <div class="trustpilot-widget" id="tp-widget"
-           data-locale="ru-RU"
-           data-template-id="ВСТАВТЕ_TEMPLATE_ID"
-           data-businessunit-id="ВСТАВТЕ_BUSINESSUNIT_ID"
-           data-style-height="240px"
-           data-style-width="100%"
-           data-theme="dark"
-           data-stars="4,5"
-           data-review-languages="ru,uk,en"
-           data-font-family="Plus Jakarta Sans">
-        <a href="https://dk.trustpilot.com/review/doverka.eu" target="_blank" rel="noopener">Trustpilot</a>
-      </div>
+    <div class="tp-block tp-block--light reveal">
+      <iframe id="testimonialto-23ea5293-ffe0-4a17-aab1-b8b8fba79d2d"
+              src="https://embed-v2.testimonial.to/carousel/all/doverka?id=23ea5293-ffe0-4a17-aab1-b8b8fba79d2d"
+              title="Отзывы клиентов Doverka.eu" loading="lazy"
+              frameborder="0" scrolling="no" width="100%"></iframe>
 
       <div class="tp-fallback" id="tp-fallback" hidden>
         <span class="tp-fallback__ic" aria-hidden="true">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 16.9 5.9 20.4l1.4-6.8L2.2 9l6.9-.7L12 2z"/></svg>
         </span>
         <span>
-          <b>Отзывы клиентов на Trustpilot</b>
-          <small>Лента отзывов подгружается напрямую из профиля сервиса. Откройте страницу, чтобы прочитать все отзывы или оставить свой.</small>
+          <b>Отзывы клиентов</b>
+          <small>Лента отзывов подгружается напрямую со страницы сервиса. Откройте её, чтобы прочитать все отзывы или оставить свой.</small>
         </span>
-        <a class="btn btn--light" href="https://dk.trustpilot.com/review/doverka.eu" target="_blank" rel="noopener">Открыть Trustpilot
+        <a class="btn btn--light" href="https://testimonial.to/doverka" target="_blank" rel="noopener">Открыть отзывы
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
       </div>
     </div>
 
     <div class="rev-foot reveal">
-      <p class="small">Отзывы загружаются напрямую из Trustpilot и обновляются автоматически. Вы также можете оставить свой — это помогает другим украинцам.</p>
-      <a class="btn btn--ghost" href="https://dk.trustpilot.com/review/doverka.eu" target="_blank" rel="noopener">Оставить отзыв на Trustpilot
+      <p class="small">Отзывы загружаются напрямую из сервиса отзывов и обновляются автоматически. Вы также можете оставить свой — это помогает другим украинцам.</p>
+      <a class="btn btn--ghost" href="https://testimonial.to/doverka" target="_blank" rel="noopener">Оставить отзыв
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </div>
@@ -1763,18 +1756,18 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold:0.12, rootMargin:'0px 0px -8% 0px' });
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-// trustpilot: show the fallback if the TrustBox has not rendered
-const tpWidget = document.getElementById('tp-widget');
+// reviews: fall back to a link if the testimonial.to embed cannot load
+const tpFrame = document.getElementById('testimonialto-23ea5293-ffe0-4a17-aab1-b8b8fba79d2d');
 const tpFallback = document.getElementById('tp-fallback');
 const tpCheck = () => {
-  const configured = !/ВСТАВТЕ_/.test(tpWidget.dataset.businessunitId + tpWidget.dataset.templateId);
-  const rendered = !!tpWidget.querySelector('iframe');
-  if (!configured || !rendered) {
-    tpFallback.hidden = false;
-    tpWidget.hidden = true;
+  if (typeof window.iFrameResize === 'function') {
+    window.iFrameResize({ log: false, checkOrigin: false }, '#testimonialto-23ea5293-ffe0-4a17-aab1-b8b8fba79d2d');
+    return;
   }
+  tpFallback.hidden = false;
+  tpFrame.hidden = true;
 };
-setTimeout(tpCheck, 3500);
+window.addEventListener('load', () => setTimeout(tpCheck, 1200));
 
 // form
 const form = document.getElementById('order-form');
