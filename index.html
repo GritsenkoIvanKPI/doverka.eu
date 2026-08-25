@@ -846,11 +846,11 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
     </a>
 
     <nav class="nav" aria-label="Головна навігація">
+      <a href="#reviews">Відгуки</a>
       <a href="#services">Послуги</a>
       <a href="#situations">Ситуації</a>
       <a href="#process">Як це працює</a>
       <a href="#pricing">Ціни</a>
-      <a href="#reviews">Відгуки</a>
       <a href="#faq">Питання</a>
     </nav>
 
@@ -874,12 +874,12 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
 </header>
 
 <div class="mobile-menu" id="mobile-menu">
+  <a class="m-link" href="#reviews">Відгуки</a>
   <a class="m-link" href="#services">Послуги</a>
   <a class="m-link" href="#situations">Ситуації</a>
   <a class="m-link" href="#process">Як це працює</a>
   <a class="m-link" href="#pricing">Ціни</a>
   <a class="m-link" href="#documents">Приклади</a>
-  <a class="m-link" href="#reviews">Відгуки</a>
   <a class="m-link" href="#faq">Питання</a>
   <div class="lang" role="group" aria-label="Мова сайту / Язык сайта">
         <a href="index.html" hreflang="uk" lang="uk" class="is-active">UA</a>
@@ -976,6 +976,74 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
           <small>Український адвокат у Швеції · веду справи особисто</small>
         </span>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ REVIEWS ============================ -->
+<section class="section section--dark" id="reviews">
+  <div class="container">
+    <div class="section-head"><span class="eyebrow reveal">Відгуки клієнтів</span></div>
+
+    <div class="rev-top">
+      <div class="rev-left">
+        <h2 class="reveal">Документ оформили, не виходячи з дому</h2>
+        <p class="quote reveal d1">«Боялася, що доведеться летіти в Україну через спадщину. Замість цього — дзвінок у неділю ввечері, підпис на камеру, а через тиждень документ уже був у нотаріуса в Полтаві».</p>
+        <div class="rev-stats reveal d2">
+          <div>
+            <div class="num">з 2022 року</div>
+            <small>працюємо з українцями у Швеції та країнах ЄС</small>
+          </div>
+          <div>
+            <div class="num">100% онлайн</div>
+            <small>усі етапи, крім доставки готового документа</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="rev-video reveal d1">
+        <img src="images/review-video.jpg" alt="Відеовідгук клієнтки сервісу Doverka.eu" loading="lazy">
+        <div class="rev-video__meta">
+          <b>Наталія</b>
+          <small>Стокгольм, Швеція · відеовідгук</small>
+        </div>
+        <button class="rev-video__play" aria-label="Відтворити відеовідгук">
+          <svg width="16" height="18" viewBox="0 0 16 18" fill="none"><path d="M15 9L1 17.2V.8L15 9z" fill="currentColor"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         TESTIMONIAL.TO — жива стрічка відгуків
+         Віджет-карусель зі спейсу «doverka». Висоту підганяє
+         iframeResizer, підключений нижче. Якщо додасте банер згоди
+         на cookie — вантажте обидва скрипти лише після згоди.
+         ============================================================ -->
+    <div class="tp-block tp-block--light reveal">
+      <iframe id="testimonialto-23ea5293-ffe0-4a17-aab1-b8b8fba79d2d"
+              src="https://embed-v2.testimonial.to/carousel/all/doverka?id=23ea5293-ffe0-4a17-aab1-b8b8fba79d2d"
+              title="Відгуки клієнтів Doverka.eu" loading="lazy"
+              frameborder="0" scrolling="no" width="100%"></iframe>
+
+      <div class="tp-fallback" id="tp-fallback" hidden>
+        <span class="tp-fallback__ic" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 16.9 5.9 20.4l1.4-6.8L2.2 9l6.9-.7L12 2z"/></svg>
+        </span>
+        <span>
+          <b>Відгуки клієнтів</b>
+          <small>Стрічка відгуків підвантажується напряму зі сторінки сервісу. Відкрийте її, щоб прочитати всі відгуки або залишити свій.</small>
+        </span>
+        <a class="btn btn--light" href="https://testimonial.to/doverka/all" target="_blank" rel="noopener">Відкрити відгуки
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="rev-foot reveal">
+      <p class="small">Відгуки завантажуються напряму з сервісу відгуків і оновлюються автоматично. Ви також можете залишити свій — це допомагає іншим українцям.</p>
+      <a class="btn btn--ghost" href="https://testimonial.to/doverka" target="_blank" rel="noopener">Залишити відгук
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
     </div>
   </div>
 </section>
@@ -1400,76 +1468,8 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
   </div>
 </section>
 
-<!-- ============================ REVIEWS ============================ -->
-<section class="section section--dark" id="reviews">
-  <div class="container">
-    <div class="section-head"><span class="eyebrow reveal">Відгуки клієнтів</span></div>
-
-    <div class="rev-top">
-      <div class="rev-left">
-        <h2 class="reveal">Документ оформили, не виходячи з дому</h2>
-        <p class="quote reveal d1">«Боялася, що доведеться летіти в Україну через спадщину. Замість цього — дзвінок у неділю ввечері, підпис на камеру, а через тиждень документ уже був у нотаріуса в Полтаві».</p>
-        <div class="rev-stats reveal d2">
-          <div>
-            <div class="num">з 2022 року</div>
-            <small>працюємо з українцями у Швеції та країнах ЄС</small>
-          </div>
-          <div>
-            <div class="num">100% онлайн</div>
-            <small>усі етапи, крім доставки готового документа</small>
-          </div>
-        </div>
-      </div>
-
-      <div class="rev-video reveal d1">
-        <img src="images/review-video.jpg" alt="Відеовідгук клієнтки сервісу Doverka.eu" loading="lazy">
-        <div class="rev-video__meta">
-          <b>Наталія</b>
-          <small>Стокгольм, Швеція · відеовідгук</small>
-        </div>
-        <button class="rev-video__play" aria-label="Відтворити відеовідгук">
-          <svg width="16" height="18" viewBox="0 0 16 18" fill="none"><path d="M15 9L1 17.2V.8L15 9z" fill="currentColor"/></svg>
-        </button>
-      </div>
-    </div>
-
-    <!-- ============================================================
-         TESTIMONIAL.TO — жива стрічка відгуків
-         Віджет-карусель зі спейсу «doverka». Висоту підганяє
-         iframeResizer, підключений нижче. Якщо додасте банер згоди
-         на cookie — вантажте обидва скрипти лише після згоди.
-         ============================================================ -->
-    <div class="tp-block tp-block--light reveal">
-      <iframe id="testimonialto-23ea5293-ffe0-4a17-aab1-b8b8fba79d2d"
-              src="https://embed-v2.testimonial.to/carousel/all/doverka?id=23ea5293-ffe0-4a17-aab1-b8b8fba79d2d"
-              title="Відгуки клієнтів Doverka.eu" loading="lazy"
-              frameborder="0" scrolling="no" width="100%"></iframe>
-
-      <div class="tp-fallback" id="tp-fallback" hidden>
-        <span class="tp-fallback__ic" aria-hidden="true">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 16.9 5.9 20.4l1.4-6.8L2.2 9l6.9-.7L12 2z"/></svg>
-        </span>
-        <span>
-          <b>Відгуки клієнтів</b>
-          <small>Стрічка відгуків підвантажується напряму зі сторінки сервісу. Відкрийте її, щоб прочитати всі відгуки або залишити свій.</small>
-        </span>
-        <a class="btn btn--light" href="https://testimonial.to/doverka/all" target="_blank" rel="noopener">Відкрити відгуки
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-      </div>
-    </div>
-
-    <div class="rev-foot reveal">
-      <p class="small">Відгуки завантажуються напряму з сервісу відгуків і оновлюються автоматично. Ви також можете залишити свій — це допомагає іншим українцям.</p>
-      <a class="btn btn--ghost" href="https://testimonial.to/doverka" target="_blank" rel="noopener">Залишити відгук
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-    </div>
-  </div>
-</section>
-
 <!-- ============================ ABOUT ============================ -->
-<section class="section" id="about">
+<section class="section section--soft" id="about">
   <div class="container">
     <div class="about">
       <div class="about__media reveal">
@@ -1498,7 +1498,7 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
 </section>
 
 <!-- ============================ FAQ ============================ -->
-<section class="section section--soft" id="faq">
+<section class="section" id="faq">
   <div class="container faq">
     <div class="stack-16">
       <span class="eyebrow reveal">Питання та відповіді</span>
