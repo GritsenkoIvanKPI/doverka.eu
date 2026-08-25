@@ -385,6 +385,10 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
 .hcard--dark{ background:var(--primary); border-color:transparent; color:var(--on-dark-dim); box-shadow:var(--shadow-dark); }
 .hcard--dark h3{ color:#fff; }
 .hcard--beige{ background:var(--secondary); border-color:transparent; }
+.hcard--wide{ grid-column:1/-1; flex-direction:row; align-items:center; gap:48px; padding:30px 34px; }
+.hcard--wide .hcard__stat{ flex:none; }
+.hcard--wide p{ flex:1 1 auto; max-width:72ch; }
+@media (max-width:900px){ .hcard--wide{ flex-direction:column; align-items:flex-start; gap:22px; padding:30px 28px; } }
 .hcard h3{ text-wrap:balance; }
 .hcard__spacer{ flex:1 1 auto; min-height:18px; }
 .hcard__stat{ display:flex; flex-direction:column; gap:0; }
@@ -1023,6 +1027,16 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
           <small class="hcard__cap">основатель Doverka.eu</small>
         </div>
       </article>
+      <article class="hcard hcard--wide reveal d3">
+        <div class="hcard__stat">
+          <div class="hcard__metric">
+            <span class="hcard__icon" aria-hidden="true"><svg width="46" height="46" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="17" stroke="currentColor" stroke-width="1.4"/><ellipse cx="24" cy="24" rx="7.5" ry="17" stroke="currentColor" stroke-width="1.4"/><path d="M7.5 24h33M10 14h28M10 34h28" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+            <span class="big">100% онлайн</span>
+          </div>
+          <small class="hcard__cap">все этапы онлайн, кроме отправки оригинала почтой</small>
+        </div>
+        <p>Заявка, подготовка документа, подписание и апостиль проходят онлайн — из любой страны. А если удобнее лично, подпишем документ в офисе в Стокгольме на Drottninggatan.</p>
+      </article>
     </div>
   </div>
 </section>
@@ -1102,7 +1116,7 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
             <svg width="42" height="42" viewBox="0 0 44 44" fill="none"><circle cx="22" cy="18" r="10" stroke="currentColor" stroke-width="1.3"/><path d="M17.5 18.3l3.2 3.2 6-6.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 27l-3 11 10-4 10 4-3-11" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
           </span>
           <h3>Апостиль и доставка</h3>
-          <p>После получения оригинала организуем нотариальное заверение, апостиль в Стокгольме и отправку документа в Украину Новой почтой или на другой адрес при необходимости.</p>
+          <p>После получения скана распечатываем документ на цветном принтере, делаем нотариальное заверение, апостиль в Стокгольме и отправляем оригинал в Украину.</p>
         </div>
       </article>
 
@@ -1260,7 +1274,7 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
       <article class="step reveal d3">
         <span class="step__n">04</span>
         <h4>Апостиль и доставка</h4>
-        <p>Вы отправляете оригинал в Стокгольм. Мы делаем заверение, апостиль и отправляем документ в Украину Новой почтой.</p>
+        <p>Вы присылаете нам на email фото‑скан подписанного документа. Мы распечатываем его, делаем заверение, апостиль и отправляем оригинал в Украину Новой почтой.</p>
         <span class="step__time">отправка по пятницам</span>
       </article>
     </div>
@@ -1402,7 +1416,7 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
           </div>
           <div>
             <div class="num">100% онлайн</div>
-            <small>все этапы, кроме отправки оригинала почтой</small>
+            <small>все этапы, кроме доставки готового документа</small>
           </div>
         </div>
       </div>
@@ -1500,7 +1514,7 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
         <button class="faq__q" aria-expanded="true">Сколько времени занимает оформление?
           <span class="faq__ic" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
         </button>
-        <div class="faq__a"><div><p>Текст документа готовим обычно до 3 часов. После онлайн‑подписания вы отправляете оригинал в Стокгольм: обычная доставка по Швеции <span class="nowrap">— 5–7 дней</span>, <span class="nowrap">быстрая — 1 день.</span> В день получения оригинала делаем заверение и апостиль. В Украину отправляем по пятницам, документы обычно приходят на следующей неделе со среды по пятницу.</p></div></div>
+        <div class="faq__a"><div><p>Текст документа готовим обычно до 3 часов. После подписания вы присылаете нам на email фото‑скан документа — пересылать оригинал почтой не нужно. В день получения скана распечатываем его на цветном принтере, ставим печати заверения личности и апостиль. В Украину отправляем по пятницам, документы обычно приходят на следующей неделе со среды по пятницу.</p></div></div>
       </div>
 
       <div class="faq__item">
@@ -1521,7 +1535,7 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
         <button class="faq__q" aria-expanded="false">Как проходит подписание и что происходит после него?
           <span class="faq__ic" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
         </button>
-        <div class="faq__a"><div><p>Мы проводим видеовстречу в Google Meet в удобное для вас время. На встрече присутствуете вы, адвокат Богдан Гребенюк и шведский нотариус. Вы подписываете документ на камеру и показываете паспорт или ID с данными латиницей. После этого отправляете оригинал документа почтой в Стокгольм, а мы организуем нотариальное заверение, апостиль и доставку готового документа.</p></div></div>
+        <div class="faq__a"><div><p>Мы проводим видеовстречу в Google Meet в удобное для вас время. На встрече присутствуете вы, адвокат Богдан Гребенюк и шведский нотариус. Вы подписываете документ на камеру и показываете паспорт или ID с данными латиницей. После подписания вы присылаете фото‑скан подписанного документа на наш электронный адрес, а мы организуем нотариальное заверение, апостиль и доставку готового документа в Украину.</p></div></div>
       </div>
 
       <div class="faq__item">
@@ -1657,7 +1671,7 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
             <h4>Офис</h4>
             <p>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 14.5s5-4.2 5-8a5 5 0 10-10 0c0 3.8 5 8 5 8z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><circle cx="8" cy="6.4" r="1.8" stroke="currentColor" stroke-width="1.2"/></svg>
-              <span>Drottninggatan 32, 11tr,<br>111 51 Stockholm</span>
+              <span>Drottninggatan 32, 11tr,<br>111 51 Stockholm, Sweden</span>
             </p>
             <p>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.2" stroke="currentColor" stroke-width="1.2"/><path d="M8 4.4V8l2.4 1.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
