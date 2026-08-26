@@ -6,8 +6,16 @@ import fs from 'fs';
 
 const ORIGIN = 'https://doverka.eu';
 
+// hreflang clusters: a page may only point at the same page in the other language,
+// never at the home page, or Google drops the whole annotation.
+const CLUSTERS = {
+  home:  { uk: '/', ru: '/ru.html' },
+  order: { uk: '/order', ru: '/order/ru.html' },
+};
+
 const PAGES = {
   'index.html': {
+    cluster: 'home',
     lang: 'uk',
     locale: 'uk_UA',
     altLocale: 'ru_RU',
@@ -25,6 +33,7 @@ const PAGES = {
     ],
   },
   'ru.html': {
+    cluster: 'home',
     lang: 'ru',
     locale: 'ru_RU',
     altLocale: 'uk_UA',
@@ -33,6 +42,46 @@ const PAGES = {
     title: 'Нотариальные документы для Украины с апостилем | Doverka.eu',
     desc: 'Доверенность, заявление и другие документы для Украины для украинцев в Швеции и ЕС. Онлайн‑подписание с нотариусом, апостиль в Стокгольме, доставка в Украину.',
     imageAlt: 'Doverka.eu — нотариальные документы для Украины онлайн, с апостилем',
+    orgDesc: 'Нотариальные документы на украинском языке с апостилем для украинцев в Швеции и странах ЕС: подготовка текста, онлайн‑подписание с нотариусом, апостиль в Стокгольме и доставка в Украину.',
+    person: { name: 'Богдан Гребенюк', jobTitle: 'Адвокат' },
+    offers: [
+      { name: 'Документ под ключ', desc: 'Консультация, подготовка документа на украинском, подписание с нотариусом, заверение подписи и апостиль в Стокгольме.', price: '2350' },
+      { name: 'Доставка в Украину', desc: 'Отправка оригинала Новой почтой с номером накладной для отслеживания.', price: '400' },
+      { name: 'Представительство в Украине', desc: 'Адвокат в вашем городе в Украине: нотариус, банк, налоговая, реестры, отчёт о проделанной работе.', price: '1100', from: true },
+    ],
+  },
+  'order/index.html': {
+    cluster: 'order',
+    lang: 'uk',
+    locale: 'uk_UA',
+    altLocale: 'ru_RU',
+    path: '/order',
+    og: 'images/og-order.jpg',
+    pageType: 'ContactPage',
+    breadcrumb: 'Замовлення документа',
+    title: 'Замовити документ з апостилем онлайн | Doverka.eu',
+    desc: 'Форма замовлення нотаріального документа для України. Відповідаємо в день звернення, називаємо точну ціну та строк. Швеція та країни ЄС, апостиль у Стокгольмі.',
+    imageAlt: 'Doverka.eu — замовлення нотаріального документа з апостилем',
+    orgDesc: 'Нотаріальні документи українською з апостилем для українців у Швеції та країнах ЄС: підготовка тексту, онлайн‑підписання з нотаріусом, апостиль у Стокгольмі та доставка в Україну.',
+    person: { name: 'Богдан Гребенюк', jobTitle: 'Адвокат' },
+    offers: [
+      { name: 'Документ під ключ', desc: 'Консультація, підготовка документа українською, підписання з нотаріусом, засвідчення підпису та апостиль у Стокгольмі.', price: '2350' },
+      { name: 'Доставка в Україну', desc: 'Відправка оригіналу Новою поштою з номером накладної для відстеження.', price: '400' },
+      { name: 'Представництво в Україні', desc: 'Адвокат у вашому місті в Україні: нотаріус, банк, податкова, реєстри, звіт про виконану роботу.', price: '1100', from: true },
+    ],
+  },
+  'order/ru.html': {
+    cluster: 'order',
+    lang: 'ru',
+    locale: 'ru_RU',
+    altLocale: 'uk_UA',
+    path: '/order/ru.html',
+    og: 'images/og-order-ru.jpg',
+    pageType: 'ContactPage',
+    breadcrumb: 'Заказ документа',
+    title: 'Заказать документ с апостилем онлайн | Doverka.eu',
+    desc: 'Форма заказа нотариального документа для Украины. Отвечаем в день обращения, называем точную цену и срок. Швеция и страны ЕС, апостиль в Стокгольме.',
+    imageAlt: 'Doverka.eu — заказ нотариального документа с апостилем',
     orgDesc: 'Нотариальные документы на украинском языке с апостилем для украинцев в Швеции и странах ЕС: подготовка текста, онлайн‑подписание с нотариусом, апостиль в Стокгольме и доставка в Украину.',
     person: { name: 'Богдан Гребенюк', jobTitle: 'Адвокат' },
     offers: [
@@ -63,6 +112,15 @@ function readFaq(html) {
   return items;
 }
 
+function hreflang(p) {
+  const c = CLUSTERS[p.cluster];
+  return [
+    `<link rel="alternate" hreflang="uk" href="${ORIGIN}${c.uk}">`,
+    `<link rel="alternate" hreflang="ru" href="${ORIGIN}${c.ru}">`,
+    `<link rel="alternate" hreflang="x-default" href="${ORIGIN}${c.uk}">`,
+  ].join('\n');
+}
+
 function head(p) {
   const url = ORIGIN + p.path;
   const img = `${ORIGIN}/${p.og}`;
@@ -71,9 +129,7 @@ function head(p) {
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <meta name="author" content="${attr(p.person.name)}">
 
-<link rel="alternate" hreflang="uk" href="${ORIGIN}/">
-<link rel="alternate" hreflang="ru" href="${ORIGIN}/ru.html">
-<link rel="alternate" hreflang="x-default" href="${ORIGIN}/">
+${hreflang(p)}
 
 <!-- Open Graph. og:image is the brand card, never the portrait — a shared link has to
      read as doverka.eu at thumbnail size. Regenerate it with gen-og.mjs. -->
@@ -202,7 +258,7 @@ function jsonld(p, faq) {
       ],
     },
     {
-      '@type': 'WebPage',
+      '@type': p.pageType || 'WebPage',
       '@id': `${url}#webpage`,
       url,
       name: p.title,
@@ -213,6 +269,17 @@ function jsonld(p, faq) {
       primaryImageOfPage: { '@id': `${ORIGIN}/#logo` },
     },
   ];
+
+  if (p.breadcrumb) {
+    graph.push({
+      '@type': 'BreadcrumbList',
+      '@id': `${url}#breadcrumb`,
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Doverka.eu', item: `${ORIGIN}${CLUSTERS.home[p.lang]}` },
+        { '@type': 'ListItem', position: 2, name: p.breadcrumb },
+      ],
+    });
+  }
 
   if (faq.length) {
     graph.push({
@@ -243,6 +310,8 @@ for (const [file, p] of Object.entries(PAGES)) {
   html = html.replace(new RegExp(`${LD_OPEN}[\\s\\S]*?${LD_CLOSE}\\n?`), '');
   html = html.replace(/<link rel="alternate" hreflang="(?:uk|ru|x-default)" href="\/(?:index|ru)\.html">\n?/g, '');
 
+  html = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${attr(p.title)}</title>`);
+  html = html.replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${attr(p.desc)}">`);
   html = html.replace(/(<meta name="description"[^>]*>\n)/, `$1\n${head(p)}\n`);
   html = html.replace(/(\n)?<\/head>/, `\n\n${jsonld(p, faq)}\n</head>`);
 
@@ -258,27 +327,26 @@ Sitemap: ${ORIGIN}/sitemap.xml
 `);
 
 const lastmod = process.env.LASTMOD || new Date().toISOString().slice(0, 10);
-const alternates = `    <xhtml:link rel="alternate" hreflang="uk" href="${ORIGIN}/"/>
-    <xhtml:link rel="alternate" hreflang="ru" href="${ORIGIN}/ru.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="${ORIGIN}/"/>`;
+const urls = Object.values(PAGES).map(p => ({ p, url: ORIGIN + p.path }));
+
+const body = urls.map(({ p, url }) => {
+  const c = CLUSTERS[p.cluster];
+  const alts = [['uk', c.uk], ['ru', c.ru], ['x-default', c.uk]]
+    .map(([l, href]) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${ORIGIN}${href}"/>`)
+    .join('\n');
+  return `  <url>
+    <loc>${url}</loc>
+${alts}
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>${p.path === '/' ? '1.0' : p.cluster === 'order' ? '0.8' : '0.9'}</priority>
+  </url>`;
+}).join('\n');
 
 fs.writeFileSync('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  <url>
-    <loc>${ORIGIN}/</loc>
-${alternates}
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>${ORIGIN}/ru.html</loc>
-${alternates}
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
+${body}
 </urlset>
 `);
 

@@ -11,6 +11,8 @@
 |------|-------------|
 | `index.html` | українська версія (`lang="uk"`) |
 | `ru.html` | російська версія (`lang="ru"`) |
+| `order/index.html` | сторінка замовлення `/order` (форма Tally), українська |
+| `order/ru.html` | сторінка замовлення `/order/ru.html`, російська |
 | `images/` | фото та зображення (Gemini + оброблене фото клієнта) |
 | `images/og-cover*.jpg` | картки для соцмереж 1200×630 (логотип, **не** фото адвоката) |
 | `favicon.*`, `icon-*.png`, `apple-touch-icon.png` | набір іконок сайту |
@@ -41,11 +43,17 @@ node seo-audit.mjs http://localhost:3000             # мета-теги, OG, hr
 ```bash
 node gen-icons.mjs        # favicon-16/32/48, apple-touch-icon, icon-192/512, maskable
 node gen-ico.mjs          # пакує 16/32/48 у favicon.ico
-node gen-og.mjs           # images/og-cover.jpg та og-cover-ru.jpg (1200×630)
+node gen-og.mjs           # соцкартки 1200×630: og-cover, og-cover-ru, og-order, og-order-ru
+node build-order.mjs      # order/index.html та order/ru.html з index.html / ru.html
 node build-seo.mjs        # мета-блок + JSON-LD в обидві сторінки, robots.txt, sitemap.xml, site.webmanifest
 node optimize-images.mjs  # перестиснення images/ (sips)
 node add-img-attrs.mjs    # width/height/decoding на всі <img>
 ```
+
+`build-order.mjs` **виводить** сторінки замовлення з `index.html` / `ru.html` — шапка,
+підвал, стилі та спільний JS беруться звідти, тому розсинхрону бути не може. Правити
+треба конфіг усередині `build-order.mjs`, а не `order/*.html`. Порядок запуску:
+`build-order.mjs` → `build-seo.mjs`.
 
 `build-seo.mjs` перечитує FAQ прямо з розмітки — після правки питань просто запусти його
 ще раз, і структуровані дані оновляться. Мета-блок обмежений маркерами

@@ -5,7 +5,7 @@
 import puppeteer from 'puppeteer';
 
 const base = (process.argv[2] || 'http://localhost:3000').replace(/\/$/, '');
-const PAGES = ['/index.html', '/ru.html'];
+const PAGES = ['/index.html', '/ru.html', '/order', '/order/ru.html'];
 const FILES = ['/robots.txt', '/sitemap.xml', '/site.webmanifest', '/favicon.ico', '/favicon.svg',
                '/apple-touch-icon.png', '/icon-192.png', '/icon-512.png', '/icon-maskable-512.png'];
 
@@ -85,7 +85,9 @@ for (const path of PAGES) {
   }
   if (meta.hreflang.some(([, href]) => !/^https?:\/\//.test(href)))
     fail('hreflang', 'relative href — Google needs fully-qualified URLs');
-  if (langs.length) ok(`hreflang: ${langs.join(', ')}`);
+  const self = meta.hreflang.find(([, href]) => href.replace(base, 'https://doverka.eu') === meta.canonical);
+  if (!self) fail('hreflang', `no self-reference matching canonical ${meta.canonical} — cluster is wrong`);
+  else ok(`hreflang: ${langs.join(', ')} (self: ${self[0]})`);
 
   for (const key of ['og:type', 'og:title', 'og:description', 'og:url', 'og:image',
                      'og:image:width', 'og:image:height', 'og:image:alt', 'og:site_name', 'og:locale']) {
@@ -142,10 +144,10 @@ else ok('robots.txt declares a sitemap');
 
 await page.goto(`${base}/sitemap.xml`, { waitUntil: 'domcontentloaded' });
 const sitemap = await page.evaluate(() => document.documentElement.textContent);
-for (const loc of ['doverka.eu/', 'doverka.eu/ru.html']) {
+for (const loc of ['doverka.eu/', 'doverka.eu/ru.html', 'doverka.eu/order', 'doverka.eu/order/ru.html']) {
   if (!sitemap.includes(loc)) fail('sitemap.xml', `missing ${loc}`);
 }
-ok('sitemap lists both pages');
+ok('sitemap lists every page');
 
 await browser.close();
 console.log(`\nTOTAL ${problems}\n`);
