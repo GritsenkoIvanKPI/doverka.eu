@@ -302,7 +302,9 @@ for (const p of PAGES) {
   // --- links that pointed at sections of the home page ---------------------
   html = html.replace(/href="#(services|situations|process|pricing|documents|reviews|about|faq)"/g, 'href="/#$1"');
   html = html.replace(/href="#top"/g, 'href="/"');
-  html = html.replace(/href="#order"/g, 'href="#form"');
+  // the source pages now send every order CTA to /order; on the order page itself
+  // that is a self-link, so it becomes an in-page jump to the form
+  html = html.replace(/href="\/order(\/ru\.html)?"/g, 'href="#form"');
   html = html.replace(/href="index\.html"( hreflang="uk")/g, 'href="/order"$1');
   html = html.replace(/href="ru\.html"( hreflang="ru")/g, 'href="/order/ru.html"$1');
 
