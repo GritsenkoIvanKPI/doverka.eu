@@ -7,7 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
 
 const MIME = {
-  '.html': 'text/html',
+  '.html': 'text/html; charset=utf-8',
   '.css': 'text/css',
   '.js': 'application/javascript',
   '.mjs': 'application/javascript',
@@ -21,6 +21,9 @@ const MIME = {
   '.woff': 'font/woff',
   '.woff2': 'font/woff2',
   '.ico': 'image/x-icon',
+  '.webmanifest': 'application/manifest+json',
+  '.xml': 'application/xml',
+  '.txt': 'text/plain; charset=utf-8',
 };
 
 http.createServer((req, res) => {

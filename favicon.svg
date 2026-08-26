@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="doverka.eu">
+  <rect width="64" height="64" rx="14" fill="#1f477b"/>
+  <circle cx="32" cy="32" r="21.5" fill="none" stroke="#ffffff" stroke-width="2.6"/>
+  <circle cx="32" cy="32" r="15" fill="none" stroke="#f0d42a" stroke-width="2" stroke-dasharray="3.4 4" stroke-linecap="round" opacity=".9"/>
+  <path d="M23.6 32.6l5.9 6.1 11.1-12.2" fill="none" stroke="#ffffff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

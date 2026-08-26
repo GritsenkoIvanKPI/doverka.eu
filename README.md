@@ -12,6 +12,10 @@
 | `index.html` | українська версія (`lang="uk"`) |
 | `ru.html` | російська версія (`lang="ru"`) |
 | `images/` | фото та зображення (Gemini + оброблене фото клієнта) |
+| `images/og-cover*.jpg` | картки для соцмереж 1200×630 (логотип, **не** фото адвоката) |
+| `favicon.*`, `icon-*.png`, `apple-touch-icon.png` | набір іконок сайту |
+| `site.webmanifest` | веб-маніфест (іконки, тема, standalone) |
+| `robots.txt`, `sitemap.xml` | індексація |
 | `CLIENT_BRIEF.md` | бриф, палітра, правила типографіки, що замінити перед запуском |
 | `doverka-eu-texts.txt` | вихідні тексти старого сайту |
 | `GEMINI_IMAGE_GENERATION.md` | як генерувалися зображення |
@@ -29,7 +33,23 @@ node screenshot.mjs http://localhost:3000            # скріншот стор
 node shot-mobile.mjs http://localhost:3000 390 <dir> # мобільні скріншоти
 node audit.mjs http://localhost:3000 <ширина>        # типографіка: зависла літера / тире / рядок з одного слова
 node layout-audit.mjs http://localhost:3000 <ширина> # верстка: overflow, обрізання, перекриття, тап-таргети
+node seo-audit.mjs http://localhost:3000             # мета-теги, OG, hreflang, JSON-LD, іконки, alt, sitemap
 ```
+
+## Генерація ассетів
+
+```bash
+node gen-icons.mjs        # favicon-16/32/48, apple-touch-icon, icon-192/512, maskable
+node gen-ico.mjs          # пакує 16/32/48 у favicon.ico
+node gen-og.mjs           # images/og-cover.jpg та og-cover-ru.jpg (1200×630)
+node build-seo.mjs        # мета-блок + JSON-LD в обидві сторінки, robots.txt, sitemap.xml, site.webmanifest
+node optimize-images.mjs  # перестиснення images/ (sips)
+node add-img-attrs.mjs    # width/height/decoding на всі <img>
+```
+
+`build-seo.mjs` перечитує FAQ прямо з розмітки — після правки питань просто запусти його
+ще раз, і структуровані дані оновляться. Мета-блок обмежений маркерами
+`<!-- ===== SEO … ===== -->`; редагувати треба в `build-seo.mjs`, не в HTML.
 
 Обидві сторінки проходять обидва аудити з нулем помилок на ширинах 320–1920.
 Для скриптів потрібен `puppeteer` (`npm i puppeteer`).
