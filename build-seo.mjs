@@ -158,7 +158,11 @@ function jsonld(p, faq) {
       currenciesAccepted: 'SEK',
       founder: { '@id': `${ORIGIN}/#bogdan` },
       provider: { '@id': `${ORIGIN}/#bogdan` },
-      sameAs: ['https://t.me/BogdanGrebenyuk', 'https://testimonial.to/doverka'],
+      sameAs: [
+        'https://t.me/BogdanGrebenyuk',
+        'https://www.instagram.com/doverka_eu/',
+        'https://testimonial.to/doverka',
+      ],
       hasOfferCatalog: {
         '@type': 'OfferCatalog',
         name: p.lang === 'uk' ? 'Послуги Doverka.eu' : 'Услуги Doverka.eu',
@@ -192,7 +196,10 @@ function jsonld(p, faq) {
           addressCountry: 'SE',
         },
       },
-      sameAs: ['https://t.me/BogdanGrebenyuk'],
+      sameAs: [
+        'https://www.facebook.com/bogdan.grebenyuk',
+        'https://t.me/BogdanGrebenyuk',
+      ],
     },
     {
       '@type': 'WebPage',
