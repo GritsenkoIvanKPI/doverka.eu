@@ -739,10 +739,24 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
 @media (max-width:560px){ .form-card{ padding:26px 22px; } }
 .form-card h4{ font-size:19px; }
 .form-card p.small{ color:#79818d; }
+.field{ display:flex; flex-direction:column; gap:8px; }
+.field label{ font-size:13.5px; font-weight:600; color:var(--body-strong); letter-spacing:-.01em; }
+.field input,.field select{
+  width:100%; font:inherit; font-size:16px; color:var(--title);
+  background:#fff; border:1px solid var(--line); border-radius:10px; padding:14px 16px;
+  transition:border-color .3s var(--ease), box-shadow .3s var(--ease);
+  appearance:none;
+}
+.field select{
+  text-overflow:ellipsis;
+  background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9' fill='none'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%231f477b' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 16px center; padding-right:44px;
+}
+.field input::placeholder{ color:#99a0ab; }
+.field input:focus,.field select:focus{ outline:none; border-color:var(--primary); box-shadow:0 0 0 3px rgba(31,71,123,.12); }
+.form-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+@media (max-width:560px){ .form-row{ grid-template-columns:1fr; } }
 .form-card .btn{ justify-content:center; }
-.cta__points{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:11px; }
-.cta__points li{ display:grid; grid-template-columns:auto 1fr; gap:11px; align-items:start; font-size:15px; line-height:1.55; }
-.cta__points svg{ color:var(--primary); margin-top:2px; }
 .form-alt{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; font-size:14px; color:#79818d; }
 .chip{
   display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line); border-radius:999px;
@@ -751,6 +765,11 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
 }
 .chip:hover{ transform:translateY(-2px); border-color:var(--primary); background:#fafafa; }
 .chip:focus-visible{ outline:2px solid var(--primary); outline-offset:3px; }
+.form-ok{
+  display:none; align-items:center; gap:12px; background:#eef4fb; border:1px solid #d2e0f0;
+  border-radius:10px; padding:14px 16px; font-size:15px; color:var(--primary);
+}
+.form-ok.is-visible{ display:flex; }
 
 /* ============================================================
    FOOTER
@@ -1166,7 +1185,7 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
         <a href="ru.html" hreflang="ru" lang="ru" class="is-active">RU</a>
       </div>
       <a class="header__phone" href="tel:+46736784546">+46 73 678 45 46</a>
-      <a class="btn btn--light btn--badge" href="/order/ru.html">
+      <a class="btn btn--light btn--badge" href="#order">
         Заказать документ
         <span class="badge" aria-hidden="true">
           <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1192,7 +1211,7 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
         <a href="ru.html" hreflang="ru" lang="ru" class="is-active">RU</a>
       </div>
   <div class="m-foot">
-    <a class="btn btn--dark" href="/order/ru.html">Заказать документ
+    <a class="btn btn--dark" href="#order">Заказать документ
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
     <a class="btn btn--ghost" href="tel:+46736784546">+46 73 678 45 46</a>
@@ -1216,7 +1235,7 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
       </ul>
 
       <div class="hero__cta reveal d3">
-        <a class="btn btn--dark" href="/order/ru.html">Заказать документ
+        <a class="btn btn--dark" href="#order">Заказать документ
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
         <a class="link-arrow" href="https://t.me/BogdanGrebenyuk" target="_blank" rel="noopener">Спросить в Telegram
@@ -1456,7 +1475,7 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
         <span class="eyebrow reveal">Что мы делаем</span>
         <h2 class="reveal d1">Наши услуги</h2>
       </div>
-      <a class="btn btn--ghost reveal d2" href="/order/ru.html">Получить консультацию
+      <a class="btn btn--ghost reveal d2" href="#order">Получить консультацию
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </div>
@@ -1607,7 +1626,7 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
 
     <div class="pricing__foot reveal" style="margin-top:44px">
       <p>Вашего случая нет в списке? Опишите ситуацию — подскажем, какой именно документ нужен, ещё до оплаты.</p>
-      <a class="btn btn--dark" href="/order/ru.html">Описать ситуацию
+      <a class="btn btn--dark" href="#order">Описать ситуацию
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </div>
@@ -1622,7 +1641,7 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
         <span class="eyebrow reveal">Четыре шага</span>
         <h2 class="reveal d1">Как проходит оформление</h2>
       </div>
-      <a class="btn btn--dark reveal d2" href="/order/ru.html">Начать оформление
+      <a class="btn btn--dark reveal d2" href="#order">Начать оформление
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </div>
@@ -1684,7 +1703,7 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
         </ul>
         <div class="plan__rule"></div>
         <p class="plan__note">Оплата после согласования текста документа.</p>
-        <a class="btn btn--light" href="/order/ru.html">Заказать документ
+        <a class="btn btn--light" href="#order">Заказать документ
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
       </article>
@@ -1706,7 +1725,7 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
         </ul>
         <div class="plan__rule"></div>
         <p class="plan__note">Обычно документ в Украине со среды по пятницу следующей недели.</p>
-        <a class="btn btn--ghost" href="/order/ru.html">Добавить к заказу
+        <a class="btn btn--ghost" href="#order">Добавить к заказу
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
       </article>
@@ -1728,7 +1747,7 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
         </ul>
         <div class="plan__rule"></div>
         <p class="plan__note">Стоимость зависит от города, задачи и объёма работы — условия согласуем отдельно.</p>
-        <a class="btn btn--ghost" href="/order/ru.html">Рассчитать стоимость
+        <a class="btn btn--ghost" href="#order">Рассчитать стоимость
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
       </article>
@@ -1793,7 +1812,7 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
           <div><b>Швеция и ЕС</b><small>клиенты из стран Шенгена</small></div>
         </div>
         <div class="about__cta reveal d4">
-          <a class="btn btn--dark" href="/order/ru.html">Получить консультацию
+          <a class="btn btn--dark" href="#order">Получить консультацию
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
           <a class="btn btn--ghost" href="https://wa.me/380677357000" target="_blank" rel="noopener">WhatsApp</a>
@@ -1889,21 +1908,44 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
       <span class="eyebrow reveal">Заказ документа</span>
       <h2 class="reveal d1">Опишите ситуацию — подскажем документ и посчитаем стоимость</h2>
 
-      <div class="form-card reveal d2">
+      <form class="form-card reveal d2" id="order-form" novalidate>
         <div class="stack-8">
-          <h4>Заполните форму</h4>
-          <p class="small">Несколько вопросов о вашей ситуации — подскажем нужный документ, назовём цену и срок. Отвечаем в день обращения.</p>
+          <h4>Три поля — и мы с вами свяжемся</h4>
+          <p class="small">Обычно отвечаем в день обращения, с 09:00 до 20:00 без выходных.</p>
         </div>
 
-        <ul class="cta__points">
-          <li><svg width="17" height="17" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.8" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Ответ в день обращения</span></li>
-          <li><svg width="17" height="17" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.8" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Точная цена и срок до начала работы</span></li>
-          <li><svg width="17" height="17" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.4l3.2 3.1L13 4.8" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Онлайн, без визита к нотариусу</span></li>
-        </ul>
+        <div class="form-row">
+          <div class="field">
+            <label for="f-name">Имя</label>
+            <input id="f-name" name="name" type="text" placeholder="Как к вам обращаться" required autocomplete="given-name">
+          </div>
+          <div class="field">
+            <label for="f-contact">Телефон или Telegram</label>
+            <input id="f-contact" name="contact" type="text" placeholder="+46 … или @nickname" required autocomplete="tel">
+          </div>
+        </div>
 
-        <a class="btn btn--dark" href="/order/ru.html">Заказать документ
+        <div class="field">
+          <label for="f-doc">Какой документ нужен</label>
+          <select id="f-doc" name="document">
+            <option>Нужна консультация</option>
+            <option>Доверенность (наследство)</option>
+            <option>Доверенность на имущество</option>
+            <option>Заявление по ребёнку</option>
+            <option>Госорганы, банк</option>
+            <option>Регистрация компании</option>
+            <option>Другое</option>
+          </select>
+        </div>
+
+        <button class="btn btn--dark" type="submit">Отправить заявку
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
+        </button>
+
+        <div class="form-ok" id="form-ok">
+          <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8.4l3.2 3.1L13 4.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Спасибо! Заявка принята — мы свяжемся с вами в ближайшее время.</span>
+        </div>
 
         <div class="form-alt">
           <span>Или напишите сразу:</span>
@@ -1921,7 +1963,7 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
           </a>
           <a class="chip" href="tel:+46736784546">+46 73 678 45 46</a>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </section>
@@ -1990,7 +2032,7 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
         <div>
           <a href="#about">Об адвокате</a>
           <a href="#faq">Вопросы</a>
-          <a href="/order/ru.html">Заказ</a>
+          <a href="#order">Заказ</a>
         </div>
       </nav>
     </div>
@@ -2010,7 +2052,7 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
 
 <div class="mobile-cta">
   <div class="mobile-cta__row">
-    <a class="btn btn--dark" href="/order/ru.html">Заказать документ
+    <a class="btn btn--dark" href="#order">Заказать документ
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
     <a class="mcta-ic" href="https://t.me/BogdanGrebenyuk" target="_blank" rel="noopener" aria-label="Написать в Telegram">
@@ -2075,6 +2117,21 @@ const tpCheck = () => {
 };
 window.addEventListener('load', () => setTimeout(tpCheck, 1200));
 
+// form
+const form = document.getElementById('order-form');
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  const name = form.querySelector('#f-name');
+  const contact = form.querySelector('#f-contact');
+  let ok = true;
+  [name, contact].forEach(f => {
+    if (!f.value.trim()) { f.style.borderColor = '#c4453b'; ok = false; }
+    else { f.style.borderColor = ''; }
+  });
+  if (!ok) return;
+  document.getElementById('form-ok').classList.add('is-visible');
+  form.querySelector('button[type="submit"]').textContent = 'Заявку надіслано';
+});
 </script>
 </body>
 </html>

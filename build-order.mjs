@@ -285,8 +285,8 @@ for (const p of PAGES) {
     main: main(p.copy),
     js: JS,
     langSwitch: { uk: '/order', ru: '/order/ru.html' },
-    // the source pages send every order CTA to /order; here that is a self-link,
-    // so it becomes an in-page jump to the form
-    rewrite: [[/href="\/order(\/ru\.html)?"/g, 'href="#form"']],
+    // the source pages scroll their order CTAs to the #order section; that section
+    // does not exist here, so those links jump to the Tally form instead
+    rewrite: [[/href="#order"/g, 'href="#form"']],
   });
 }

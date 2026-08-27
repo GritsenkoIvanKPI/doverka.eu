@@ -735,10 +735,24 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
 @media (max-width:560px){ .form-card{ padding:26px 22px; } }
 .form-card h4{ font-size:19px; }
 .form-card p.small{ color:#79818d; }
+.field{ display:flex; flex-direction:column; gap:8px; }
+.field label{ font-size:13.5px; font-weight:600; color:var(--body-strong); letter-spacing:-.01em; }
+.field input,.field select{
+  width:100%; font:inherit; font-size:16px; color:var(--title);
+  background:#fff; border:1px solid var(--line); border-radius:10px; padding:14px 16px;
+  transition:border-color .3s var(--ease), box-shadow .3s var(--ease);
+  appearance:none;
+}
+.field select{
+  text-overflow:ellipsis;
+  background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9' fill='none'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%231f477b' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 16px center; padding-right:44px;
+}
+.field input::placeholder{ color:#99a0ab; }
+.field input:focus,.field select:focus{ outline:none; border-color:var(--primary); box-shadow:0 0 0 3px rgba(31,71,123,.12); }
+.form-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+@media (max-width:560px){ .form-row{ grid-template-columns:1fr; } }
 .form-card .btn{ justify-content:center; }
-.cta__points{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:11px; }
-.cta__points li{ display:grid; grid-template-columns:auto 1fr; gap:11px; align-items:start; font-size:15px; line-height:1.55; }
-.cta__points svg{ color:var(--primary); margin-top:2px; }
 .form-alt{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; font-size:14px; color:#79818d; }
 .chip{
   display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line); border-radius:999px;
@@ -747,6 +761,11 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
 }
 .chip:hover{ transform:translateY(-2px); border-color:var(--primary); background:#fafafa; }
 .chip:focus-visible{ outline:2px solid var(--primary); outline-offset:3px; }
+.form-ok{
+  display:none; align-items:center; gap:12px; background:#eef4fb; border:1px solid #d2e0f0;
+  border-radius:10px; padding:14px 16px; font-size:15px; color:var(--primary);
+}
+.form-ok.is-visible{ display:flex; }
 
 /* ============================================================
    FOOTER

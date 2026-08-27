@@ -160,5 +160,7 @@ for (const p of PAGES) {
     main: main(p.copy),
     js: JS,
     langSwitch: p.langSwitch,
+    // #order lives on the home page, not here
+    rewrite: [[/href="#order"/g, 'href="/#order"']],
   });
 }
