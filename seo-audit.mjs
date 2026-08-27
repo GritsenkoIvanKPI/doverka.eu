@@ -5,7 +5,15 @@
 import puppeteer from 'puppeteer';
 
 const base = (process.argv[2] || 'http://localhost:3000').replace(/\/$/, '');
-const PAGES = ['/index.html', '/ru.html', '/order', '/order/ru.html'];
+const PAGES = [
+  { path: '/index.html' },
+  { path: '/ru.html' },
+  { path: '/order' },
+  { path: '/order/ru.html' },
+  // confirmation pages: must be noindex and must stay out of the sitemap
+  { path: '/thanks', noindex: true },
+  { path: '/thanks/ru.html', noindex: true },
+];
 const FILES = ['/robots.txt', '/sitemap.xml', '/site.webmanifest', '/favicon.ico', '/favicon.svg',
                '/apple-touch-icon.png', '/icon-192.png', '/icon-512.png', '/icon-maskable-512.png'];
 
@@ -27,7 +35,7 @@ const reachable = async (url) => {
 
 console.log(`\nSEO audit — ${base}`);
 
-for (const path of PAGES) {
+for (const { path, noindex } of PAGES) {
   console.log(`\n${path}`);
   await page.goto(base + path, { waitUntil: 'domcontentloaded' });
 
@@ -75,7 +83,10 @@ for (const path of PAGES) {
   else if (!/^https?:\/\//.test(meta.canonical)) fail('canonical', 'must be absolute');
   else ok(`canonical ${meta.canonical}`);
 
-  if (!meta.robots) fail('robots', 'missing'); else ok(`robots "${meta.robots}"`);
+  if (!meta.robots) fail('robots', 'missing');
+  else if (noindex && !/\bnoindex\b/.test(meta.robots)) fail('robots', `must be noindex, got "${meta.robots}"`);
+  else if (!noindex && /\bnoindex\b/.test(meta.robots)) fail('robots', 'unexpectedly noindex');
+  else ok(`robots "${meta.robots}"`);
   if (!meta.themeColor) fail('theme-color', 'missing'); else ok(`theme-color ${meta.themeColor}`);
 
   // hreflang: every page must list every language, itself included, absolutely
@@ -147,7 +158,13 @@ const sitemap = await page.evaluate(() => document.documentElement.textContent);
 for (const loc of ['doverka.eu/', 'doverka.eu/ru.html', 'doverka.eu/order', 'doverka.eu/order/ru.html']) {
   if (!sitemap.includes(loc)) fail('sitemap.xml', `missing ${loc}`);
 }
-ok('sitemap lists every page');
+ok('sitemap lists every indexable page');
+
+// a noindex page in the sitemap is a contradictory signal to crawlers
+for (const loc of ['doverka.eu/thanks']) {
+  if (sitemap.includes(loc)) fail('sitemap.xml', `${loc} is noindex and must not be listed`);
+}
+ok('sitemap omits the noindex pages');
 
 await browser.close();
 console.log(`\nTOTAL ${problems}\n`);

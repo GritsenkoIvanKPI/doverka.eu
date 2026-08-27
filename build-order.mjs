@@ -3,14 +3,11 @@
 // the head, header, footer, stylesheet and shared JS can never drift from the main
 // pages. Re-run after any change to the site chrome; run build-seo.mjs afterwards to
 // stamp the per-page metadata.
-import fs from 'fs';
-import path from 'path';
+import { derivePage, NB } from './derive-page.mjs';
 
 const TALLY_FORM = 'wb496g';
 const TALLY_SRC = `https://tally.so/embed/${TALLY_FORM}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`;
 
-const NB = ' ';   // non-breaking space
-const NH = '‑';   // non-breaking hyphen
 
 const PAGES = [
   {
@@ -280,44 +277,16 @@ const JS = `
 })();
 `;
 
-const cut = (html, open, close, replacement) => {
-  const a = html.indexOf(open);
-  const b = html.indexOf(close, a);
-  if (a === -1 || b === -1) throw new Error(`markers not found: ${open}`);
-  return html.slice(0, a) + replacement + html.slice(b + close.length);
-};
-
-fs.mkdirSync('order', { recursive: true });
-
 for (const p of PAGES) {
-  let html = fs.readFileSync(p.src, 'utf8');
-
-  // --- head: drop what only the home page needs -----------------------------
-  html = html.replace(/<!-- Testimonial\.to:[^\n]*\n<script[^>]*testimonial\.to[^>]*><\/script>\n/, '');
-  html = html.replace(/<!-- LCP candidate[^\n]*\n<link rel="preload"[^>]*>\n/, '');
-
-  // --- the page lives one level down --------------------------------------
-  html = html.replace(/(src|href)="images\//g, '$1="/images/');
-
-  // --- links that pointed at sections of the home page ---------------------
-  html = html.replace(/href="#(services|situations|process|pricing|documents|reviews|about|faq)"/g, 'href="/#$1"');
-  html = html.replace(/href="#top"/g, 'href="/"');
-  // the source pages now send every order CTA to /order; on the order page itself
-  // that is a self-link, so it becomes an in-page jump to the form
-  html = html.replace(/href="\/order(\/ru\.html)?"/g, 'href="#form"');
-  html = html.replace(/href="index\.html"( hreflang="uk")/g, 'href="/order"$1');
-  html = html.replace(/href="ru\.html"( hreflang="ru")/g, 'href="/order/ru.html"$1');
-
-  // --- stylesheet: inherited sheet plus the order-page rules ---------------
-  html = html.replace('</style>', `${CSS}</style>`);
-
-  // --- body ----------------------------------------------------------------
-  html = cut(html, '<main id="top">', '</main>', main(p.copy));
-
-  // --- script: keep header/menu/reveal, swap the page-specific tail ---------
-  html = cut(html, '\n// reviews:', '</script>', `${JS}</script>`);
-
-  fs.mkdirSync(path.dirname(p.out), { recursive: true });
-  fs.writeFileSync(p.out, html);
-  console.log(`${p.out}  ${Math.round(Buffer.byteLength(html) / 1024)} KB`);
+  derivePage({
+    src: p.src,
+    out: p.out,
+    css: CSS,
+    main: main(p.copy),
+    js: JS,
+    langSwitch: { uk: '/order', ru: '/order/ru.html' },
+    // the source pages send every order CTA to /order; here that is a self-link,
+    // so it becomes an in-page jump to the form
+    rewrite: [[/href="\/order(\/ru\.html)?"/g, 'href="#form"']],
+  });
 }
