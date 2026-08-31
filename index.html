@@ -771,6 +771,38 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
 }
 .form-ok.is-visible{ display:flex; }
 
+/* consent — required before a lead may be sent (EU personal data) */
+.form-consent{ display:grid; grid-template-columns:auto 1fr; gap:11px; align-items:start; }
+.form-consent input{
+  width:19px; height:19px; margin:11px 0 0; flex:none; accent-color:var(--primary);
+  border-radius:5px; cursor:pointer;
+}
+/* the label is the tap target for the box next to it — padding lifts the pair to 41px */
+.form-consent label{
+  font-size:13.5px; line-height:1.55; color:var(--body); cursor:pointer; padding:10px 0;
+}
+.form-consent a{ color:var(--primary); text-decoration:underline; text-underline-offset:2px; }
+.form-consent input:focus-visible{ outline:2px solid var(--primary); outline-offset:2px; }
+.form-consent.is-invalid label{ color:#b03a30; }
+
+/* a field the server rejected */
+.field.is-invalid input,.field.is-invalid select{ border-color:#c4453b; }
+.field.is-invalid input:focus,.field.is-invalid select:focus{ box-shadow:0 0 0 3px rgba(196,69,59,.14); }
+
+.form-error{
+  display:none; align-items:center; gap:12px; background:#fdf2f1; border:1px solid #f3d5d2;
+  border-radius:10px; padding:14px 16px; font-size:14.5px; line-height:1.5; color:#a33a31;
+}
+.form-error.is-visible{ display:flex; }
+
+/* honeypot: off-screen for people, plain input to a bot. Not display:none —
+   some bots skip hidden fields, and that is exactly what we want them not to do. */
+.form-trap{
+  position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;
+}
+
+.form-card button[data-busy]{ opacity:.72; pointer-events:none; }
+
 /* ============================================================
    FOOTER
    ============================================================ */
@@ -1908,7 +1940,7 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
       <span class="eyebrow reveal">Замовлення документа</span>
       <h2 class="reveal d1">Опишіть ситуацію — підкажемо документ і порахуємо вартість</h2>
 
-      <form class="form-card reveal d2" id="order-form" novalidate>
+      <form class="form-card reveal d2" id="order-form" action="/send-form.php" method="post" novalidate>
         <div class="stack-8">
           <h4>Три поля — і ми з вами зв'яжемося</h4>
           <p class="small">Зазвичай відповідаємо в день звернення, з 09:00 до 20:00 без вихідних.</p>
@@ -1938,9 +1970,23 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
           </select>
         </div>
 
-        <button class="btn btn--dark" type="submit">Надіслати заявку
+        <div class="form-consent" id="f-gdpr-row">
+          <input type="checkbox" id="f-gdpr" name="gdpr" required>
+          <label for="f-gdpr">Погоджуюсь на обробку моїх персональних даних для опрацювання цієї заявки.</label>
+        </div>
+
+        <!-- spam trap: invisible to people, irresistible to bots -->
+        <div class="form-trap" aria-hidden="true">
+          <label for="f-website">Не заповнюйте це поле</label>
+          <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+        </div>
+
+        <button class="btn btn--dark" type="submit">
+          <span class="btn-label">Надіслати заявку</span>
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
+
+        <div class="form-error" id="form-error" role="alert"></div>
 
         <div class="form-ok" id="form-ok">
           <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8.4l3.2 3.1L13 4.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -2117,21 +2163,93 @@ const tpCheck = () => {
 };
 window.addEventListener('load', () => setTimeout(tpCheck, 1200));
 
-// form
-const form = document.getElementById('order-form');
-form.addEventListener('submit', e => {
-  e.preventDefault();
-  const name = form.querySelector('#f-name');
-  const contact = form.querySelector('#f-contact');
-  let ok = true;
-  [name, contact].forEach(f => {
-    if (!f.value.trim()) { f.style.borderColor = '#c4453b'; ok = false; }
-    else { f.style.borderColor = ''; }
+// order form -> send-form.php -> Telegram
+// The endpoint answers {ok:true} or {ok:false, error:'…'}; the token never leaves
+// the server, so the page only ever sees an error code.
+(function () {
+  const form = document.getElementById('order-form');
+  if (!form) return;
+
+  const errorBox = document.getElementById('form-error');
+  const okBox    = document.getElementById('form-ok');
+  const button   = form.querySelector('button[type="submit"]');
+  const label    = button.querySelector('.btn-label');
+  const idle     = label.textContent;
+  const consent  = document.getElementById('f-gdpr-row');
+
+  const MESSAGES = {
+    sending: 'Надсилаємо…',
+    validation_failed: 'Перевірте, будь ласка, виділені поля.',
+    rate_limited: 'Забагато спроб поспіль. Спробуйте за годину або напишіть у Telegram.',
+    server_not_configured: 'Форма тимчасово недоступна. Напишіть, будь ласка, у Telegram або зателефонуйте.',
+    delivery_failed: 'Не вдалося надіслати заявку. Напишіть, будь ласка, у Telegram або зателефонуйте.',
+    server_error: 'Не вдалося надіслати заявку. Напишіть, будь ласка, у Telegram або зателефонуйте.',
+    method_not_allowed: 'Не вдалося надіслати заявку. Напишіть, будь ласка, у Telegram або зателефонуйте.',
+    network: 'Немає звʼязку з сервером. Перевірте інтернет і спробуйте ще раз.'
+  };
+  const FIELD_ROW = { name: '#f-name', contact: '#f-contact' };
+
+  const clearMarks = () => {
+    form.querySelectorAll('.field.is-invalid').forEach(f => f.classList.remove('is-invalid'));
+    consent.classList.remove('is-invalid');
+    errorBox.classList.remove('is-visible');
+  };
+
+  const fail = (message, fields) => {
+    errorBox.textContent = message;
+    errorBox.classList.add('is-visible');
+    let first = null;
+    Object.keys(fields || {}).forEach(key => {
+      if (key === 'gdpr') { consent.classList.add('is-invalid'); first = first || consent; return; }
+      const input = form.querySelector(FIELD_ROW[key] || '');
+      if (input) { input.closest('.field').classList.add('is-invalid'); first = first || input; }
+    });
+    (first || errorBox).scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (first && first.focus) first.focus({ preventScroll: true });
+  };
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    clearMarks();
+
+    const data = {
+      name:     form.querySelector('#f-name').value,
+      contact:  form.querySelector('#f-contact').value,
+      document: form.querySelector('#f-doc').value,
+      gdpr:     form.querySelector('#f-gdpr').checked,
+      website:  form.querySelector('#f-website').value,
+      lang:     document.documentElement.lang || 'uk',
+      page:     location.pathname
+    };
+
+    button.setAttribute('data-busy', '');
+    label.textContent = MESSAGES.sending;
+
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      let payload = {};
+      try { payload = await res.json(); } catch (_) { /* keep the empty object */ }
+
+      if (res.ok && payload.ok) {
+        // A real page view on /thanks is what ad platforms count as a conversion.
+        okBox.classList.add('is-visible');
+        location.assign('/thanks');
+        return;
+      }
+      fail(MESSAGES[payload.error] || MESSAGES.delivery_failed, payload.fields);
+    } catch (_) {
+      fail(MESSAGES.network);
+    } finally {
+      button.removeAttribute('data-busy');
+      label.textContent = idle;
+    }
   });
-  if (!ok) return;
-  document.getElementById('form-ok').classList.add('is-visible');
-  form.querySelector('button[type="submit"]').textContent = 'Заявку надіслано';
-});
+})();
 </script>
 </body>
 </html>

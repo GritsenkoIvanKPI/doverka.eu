@@ -31,6 +31,8 @@ const report = await page.evaluate((vw) => {
   };
   // intentionally wider-than-viewport marquee tracks
   const inMarquee = el => !!el.closest('.tagcloud');
+  // the spam honeypot is parked off-screen deliberately — no person ever sees it
+  const inTrap = el => !!el.closest('.form-trap');
   // elements inside a horizontally scrollable row are meant to extend past the edge
   const inScroller = el => {
     for (let n = el.parentElement; n && n !== document.body; n = n.parentElement) {
@@ -47,7 +49,7 @@ const report = await page.evaluate((vw) => {
   const all = [...document.body.querySelectorAll('*')];
 
   for (const el of all) {
-    if (!visible(el) || inMarquee(el) || inScroller(el)) continue;
+    if (!visible(el) || inMarquee(el) || inScroller(el) || inTrap(el)) continue;
     const cs = getComputedStyle(el);
     const r = el.getBoundingClientRect();
 
@@ -85,8 +87,18 @@ const report = await page.evaluate((vw) => {
 
   // 6. tap targets that are too small
   for (const el of document.querySelectorAll('a.btn, button, .chip, .mcta-ic, .float a, .burger, .faq__q, input, select')) {
-    if (!visible(el)) continue;
-    const r = el.getBoundingClientRect();
+    if (!visible(el) || inTrap(el)) continue;
+    let r = el.getBoundingClientRect();
+    // a checkbox or radio is activated by its <label for> too, so the pair is the
+    // real target — measure the union rather than the 20px box on its own
+    if (el.type === 'checkbox' || el.type === 'radio') {
+      const lab = el.id && document.querySelector(`label[for="${el.id}"]`);
+      const lr = lab && lab.getBoundingClientRect();
+      if (lr) r = {
+        width:  Math.max(r.right, lr.right) - Math.min(r.left, lr.left),
+        height: Math.max(r.bottom, lr.bottom) - Math.min(r.top, lr.top),
+      };
+    }
     if (r.height < 40 || r.width < 40)
       issues.push({ type: 'small-tap-target', el: label(el), size: `${Math.round(r.width)}x${Math.round(r.height)}` });
   }

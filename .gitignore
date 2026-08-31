@@ -14,3 +14,6 @@ SKILL canvas.md
 # macOS
 .DS_Store
 documents/
+
+# form secrets — the bot token lives here, created directly on the server
+config.php

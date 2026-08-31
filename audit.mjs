@@ -32,7 +32,8 @@ const issues = await page.evaluate(() => {
     if (tag === 'script' || tag === 'style') continue;
     if (!n.nodeValue.trim()) continue;
     if (p.checkVisibility && !p.checkVisibility({ visibilityProperty: true, opacityProperty: true })) continue;
-    if (p.closest('.mobile-menu')) continue;
+    // .form-trap is the spam honeypot, parked off-screen — no person ever reads it
+    if (p.closest('.mobile-menu') || p.closest('.form-trap')) continue;
     const b = blockOf(n);
     if (!b) continue;
     if (!groups.has(b)) groups.set(b, []);

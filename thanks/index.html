@@ -767,6 +767,38 @@ body.menu-open .mobile-menu{ opacity:1; visibility:visible; transform:none; }
 }
 .form-ok.is-visible{ display:flex; }
 
+/* consent — required before a lead may be sent (EU personal data) */
+.form-consent{ display:grid; grid-template-columns:auto 1fr; gap:11px; align-items:start; }
+.form-consent input{
+  width:19px; height:19px; margin:11px 0 0; flex:none; accent-color:var(--primary);
+  border-radius:5px; cursor:pointer;
+}
+/* the label is the tap target for the box next to it — padding lifts the pair to 41px */
+.form-consent label{
+  font-size:13.5px; line-height:1.55; color:var(--body); cursor:pointer; padding:10px 0;
+}
+.form-consent a{ color:var(--primary); text-decoration:underline; text-underline-offset:2px; }
+.form-consent input:focus-visible{ outline:2px solid var(--primary); outline-offset:2px; }
+.form-consent.is-invalid label{ color:#b03a30; }
+
+/* a field the server rejected */
+.field.is-invalid input,.field.is-invalid select{ border-color:#c4453b; }
+.field.is-invalid input:focus,.field.is-invalid select:focus{ box-shadow:0 0 0 3px rgba(196,69,59,.14); }
+
+.form-error{
+  display:none; align-items:center; gap:12px; background:#fdf2f1; border:1px solid #f3d5d2;
+  border-radius:10px; padding:14px 16px; font-size:14.5px; line-height:1.5; color:#a33a31;
+}
+.form-error.is-visible{ display:flex; }
+
+/* honeypot: off-screen for people, plain input to a bot. Not display:none —
+   some bots skip hidden fields, and that is exactly what we want them not to do. */
+.form-trap{
+  position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;
+}
+
+.form-card button[data-busy]{ opacity:.72; pointer-events:none; }
+
 /* ============================================================
    FOOTER
    ============================================================ */
