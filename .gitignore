@@ -17,3 +17,7 @@ documents/
 
 # form secrets — the bot token lives here, created directly on the server
 config.php
+
+# deployment bundle — regenerate with `node build-deploy.mjs`
+deploy/
+deploy.zip

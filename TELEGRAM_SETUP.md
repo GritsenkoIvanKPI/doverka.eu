@@ -29,15 +29,20 @@
 
 ## 3. Завантажити файли на Hostinger
 
-У `public_html/` мають лежати:
+Набір для заливки збирається командою:
 
-- `index.html`, `ru.html`
-- `send-form.php`
-- теки `order/`, `thanks/`, `images/`
-- іконки та службові файли (`favicon*`, `icon-*`, `apple-touch-icon.png`,
-  `site.webmanifest`, `robots.txt`, `sitemap.xml`)
+```
+node build-deploy.mjs
+```
 
-`config.example.php` завантажувати не обовʼязково — це лише зразок.
+Вона створює теку `deploy/` — рівно те, що має лежати в `public_html/`, і нічого
+зайвого. Далі: hPanel → File Manager → `public_html` → Upload → `deploy.zip`
+→ розпакувати (або перетягнути вміст `deploy/` по FTP).
+
+**Не заливати нічого іншого з репозиторію.** Усе, що потрапить у `public_html`,
+читається ззовні за прямим посиланням: `CLIENT_BRIEF.md` віддав би бриф і ціни,
+`documents/` — незаблюрені скани з персональними даними. `build-deploy.mjs` їх
+не бере, тому просто користуйтесь ним, а не ручним копіюванням.
 
 ## 4. Створити `config.php`
 

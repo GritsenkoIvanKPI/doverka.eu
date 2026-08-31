@@ -11,6 +11,7 @@
 |------|-------------|
 | `index.html` | українська версія (`lang="uk"`) |
 | `ru.html` | російська версія (`lang="ru"`) |
+| `build-deploy.mjs` | збирає `deploy/` — точний набір файлів для `public_html` |
 | `send-form.php` | приймає заявку з форми `#order` і шле в Telegram |
 | `config.example.php` | зразок для `config.php` (токен; на сервері, не в git) |
 | `TELEGRAM_SETUP.md` | як підключити бота, знайти `chat_id`, перевірити |
