@@ -284,7 +284,7 @@ for (const p of PAGES) {
     css: CSS,
     main: main(p.copy),
     js: JS,
-    langSwitch: { uk: '/order', ru: '/order/ru.html' },
+    langSwitch: { uk: '/order/', ru: '/order/ru.html' },
     // the source pages scroll their order CTAs to the #order section; that section
     // does not exist here, so those links jump to the Tally form instead
     rewrite: [[/href="#order"/g, 'href="#form"']],

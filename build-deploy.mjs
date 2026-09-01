@@ -13,6 +13,7 @@ const PAGES = ['index.html', 'ru.html', 'order/index.html', 'order/ru.html',
 
 // served as-is, referenced from the head or the manifest rather than the body
 const ROOT_FILES = [
+  '.htaccess',
   'send-form.php',
   'favicon.ico', 'favicon.svg', 'apple-touch-icon.png',
   'icon-192.png', 'icon-512.png', 'icon-maskable-512.png',

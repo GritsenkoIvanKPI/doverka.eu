@@ -7,7 +7,7 @@ const PAGES = [
   {
     out: 'thanks/index.html',
     src: 'index.html',
-    langSwitch: { uk: '/thanks', ru: '/thanks/ru.html' },
+    langSwitch: { uk: '/thanks/', ru: '/thanks/ru.html' },
     copy: {
       eyebrow: 'Заявку прийнято',
       h1: `Дякую! Ваш запит відправлено`,
@@ -27,7 +27,7 @@ const PAGES = [
   {
     out: 'thanks/ru.html',
     src: 'ru.html',
-    langSwitch: { uk: '/thanks', ru: '/thanks/ru.html' },
+    langSwitch: { uk: '/thanks/', ru: '/thanks/ru.html' },
     copy: {
       eyebrow: 'Заявка принята',
       h1: `Спасибо! Ваш запрос отправлен`,

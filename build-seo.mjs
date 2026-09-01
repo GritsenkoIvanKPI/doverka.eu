@@ -10,8 +10,8 @@ const ORIGIN = 'https://doverka.eu';
 // never at the home page, or Google drops the whole annotation.
 const CLUSTERS = {
   home:  { uk: '/', ru: '/ru.html' },
-  order:  { uk: '/order',  ru: '/order/ru.html' },
-  thanks: { uk: '/thanks', ru: '/thanks/ru.html' },
+  order:  { uk: '/order/',  ru: '/order/ru.html' },
+  thanks: { uk: '/thanks/', ru: '/thanks/ru.html' },
 };
 
 const PAGES = {
@@ -56,7 +56,7 @@ const PAGES = {
     lang: 'uk',
     locale: 'uk_UA',
     altLocale: 'ru_RU',
-    path: '/order',
+    path: '/order/',
     og: 'images/og-order.jpg',
     pageType: 'ContactPage',
     breadcrumb: 'Замовлення документа',
@@ -96,7 +96,7 @@ const PAGES = {
     lang: 'uk',
     locale: 'uk_UA',
     altLocale: 'ru_RU',
-    path: '/thanks',
+    path: '/thanks/',
     og: 'images/og-cover.jpg',
     noindex: true,          // confirmation page — must never surface in search
     title: 'Дякую! Ваш запит відправлено | Doverka.eu',

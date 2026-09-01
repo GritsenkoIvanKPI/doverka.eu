@@ -1,0 +1,59 @@
+# ---------- one canonical host ----------
+# The pages declare https://doverka.eu (no www) as canonical. If the host answers on
+# www. or on plain http as well, the same page exists at four addresses and Google
+# splits the signals between them. Force everything onto the canonical one.
+# HTTP_X_FORWARDED_PROTO covers hosts that terminate SSL at a proxy, where HTTPS is
+# still "off" on the origin.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    RewriteCond %{HTTPS} !=on
+    RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+    RewriteRule ^ https://doverka.eu%{REQUEST_URI} [R=301,L]
+
+    RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+    RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+# ---------- protect the bot token ----------
+# config.php is executed by PHP and never served as text, but if PHP is ever
+# misconfigured the raw file — token included — would be readable. Deny it outright.
+<FilesMatch "^config\.php$">
+    Require all denied
+</FilesMatch>
+
+# Never serve editor leftovers or the example config as plain text.
+<FilesMatch "\.(bak|old|orig|save|swp|dist|log)$">
+    Require all denied
+</FilesMatch>
+<FilesMatch "\.example\.php$">
+    Require all denied
+</FilesMatch>
+
+# ---------- compression ----------
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+    AddOutputFilterByType DEFLATE application/javascript application/json
+    AddOutputFilterByType DEFLATE application/manifest+json image/svg+xml
+</IfModule>
+
+# ---------- caching ----------
+# Images and icons are content-stable; the pages must revalidate so a redeploy is
+# visible immediately.
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg             "access plus 1 year"
+    ExpiresByType image/png              "access plus 1 year"
+    ExpiresByType image/webp             "access plus 1 year"
+    ExpiresByType image/svg+xml          "access plus 1 year"
+    ExpiresByType image/x-icon           "access plus 1 year"
+    ExpiresByType application/manifest+json "access plus 1 week"
+    ExpiresByType text/html              "access plus 0 seconds"
+</IfModule>
+
+# ---------- security headers ----------
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set X-Frame-Options "SAMEORIGIN"
+</IfModule>
